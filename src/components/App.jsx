@@ -33,6 +33,19 @@ export class App  extends Component {
     
   }
  
+  addContact = ({name, number}) =>  {
+    if (this.state.contacts.some(value => value.name === name)) {
+      alert(`${name} is already in contacts.`);
+      return;
+    }
+    this.setState(prevState =>({
+      contacts: [...prevState.contacts, {
+        id: nanoid(),
+        name: name,
+        number: number
+    }]
+      }));
+  }
   
   render() {
     const {contacts, filter} = this.state;
@@ -52,19 +65,7 @@ export class App  extends Component {
         <div>
         <h1>Phonebook</h1>
         <ContactForm 
-        onSubmit={({name, number}) => {
-          if (contacts.some(value => value.name === name)) {
-            alert(`${name} is already in contacts.`);
-            return;
-          }
-          this.setState(prevState =>({
-            contacts: [...prevState.contacts, {
-              id: nanoid(),
-              name: name,
-              number: number
-           }]
-            }));
-        }}
+        onSubmit={this.addContact}
         nameInputId={this.nameInputId}
         telInputId={this.telInputId}
         />
